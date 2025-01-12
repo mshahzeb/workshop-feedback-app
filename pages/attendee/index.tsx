@@ -74,6 +74,13 @@ export default function AttendeeDashboard() {
                         </Table>
                     </TableContainer>
                 </Box>
+                <Button
+                    variant="contained"
+                    sx={{ mt: 3 }}
+                    onClick={() => window.location.href = '/attendee/redeem'}
+                >
+                    Redeem New Certificate
+                </Button>
             </Box>
         </Container>
     );

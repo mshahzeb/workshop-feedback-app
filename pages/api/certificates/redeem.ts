@@ -2,22 +2,28 @@ import connectMongo from '../../../lib/mongodb';
 import Workshop from '../../../models/Workshop';
 
 export default async function handler(req, res) {
-    if (req.method !== 'POST') return res.status(405).end();
-
-    await connectMongo();
+    if (req.method !== 'POST') {
+        return res.status(405).json({ message: 'Method Not Allowed' });
+    }
 
     try {
+        await connectMongo();
+
         const { uniqueCode, feedback } = req.body;
 
+        // Find the workshop by unique code
         const workshop = await Workshop.findOne({ uniqueCode });
-        if (!workshop) return res.status(404).json({ message: 'Workshop not found' });
+        if (!workshop) {
+            return res.status(404).json({ message: 'Workshop not found' });
+        }
 
         // Check if the certificate exists
         const certificate = workshop.certificates.find((cert) =>
             cert.endsWith(`${feedback.email}.pdf`)
         );
-        if (!certificate)
+        if (!certificate) {
             return res.status(404).json({ message: 'Certificate not found for this email.' });
+        }
 
         // Save feedback
         workshop.redeemed.push(feedback);

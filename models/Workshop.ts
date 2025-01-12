@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const WorkshopSchema = new mongoose.Schema({
-    title: { type: String, required: true },
+    title: { type: String, required: true }, // Ensure this is correct
     uniqueCode: { type: String, unique: true, required: true },
     createdDate: { type: Date, default: Date.now },
     certificates: { type: [String], default: [] },
